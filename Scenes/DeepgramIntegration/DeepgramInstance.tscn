@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/DeepgramIntegration/DeepgramInstance.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/DeepgramIntegration/MicrophoneInstance.tscn" type="PackedScene" id=2]
+
+[node name="DeepgramInstance" type="Node" groups=[
+"DeepgramInstance",
+]]
+script = ExtResource( 1 )
+
+[node name="MicrophoneInstance" parent="." instance=ExtResource( 2 )]
+
+[connection signal="audio_captured" from="MicrophoneInstance" to="." method="_on_MicrophoneInstance_audio_captured"]

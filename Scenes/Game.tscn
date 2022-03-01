@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/Map.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Game.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Torch.tscn" type="PackedScene" id=5]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Map" parent="." instance=ExtResource( 1 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource( 2 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 320, 240 )
+current = true
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 320, 240 )
+
+[node name="Torch1" parent="." instance=ExtResource( 5 )]
+position = Vector2( 60, 380 )
+
+[node name="Torch2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 580, 380 )
+
+[node name="Torch3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 580, 80 )
+
+[node name="Torch4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 60, 80 )
+
+[node name="GhostSpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="GhostSpawnTimer" to="." method="_on_GhostSpawnTimer_timeout"]
