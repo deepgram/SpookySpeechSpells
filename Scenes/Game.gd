@@ -16,6 +16,8 @@ func _input(event):
 
 func _ready():
 	rng.randomize()
+	$CanvasLayer/UI/TitleUI.visible = true
+	$Player.visible = false
 	$DeepgramInstance.initialize("6bcd9cacad1f0a0dc84cbda8e7ac0b3501eedf3b")
 
 func _on_DeepgramInstance_message_received(message):
@@ -39,7 +41,7 @@ func _on_DeepgramInstance_message_received(message):
 		print("Failed to parse Deepgram message!")
 
 func _process(_delta):
-	if !$Player.visible && !$CanvasLayer/UI/CenterUI.visible:
+	if !$Player.visible && !$CanvasLayer/UI/GameOverUI.visible && !$CanvasLayer/UI/TitleUI.visible:
 		$CanvasLayer/UI.showGameOver(score)
 
 	var ghosts = get_tree().get_nodes_in_group("Ghost")
@@ -89,6 +91,8 @@ func _on_ScoreTimer_timeout():
 				$CanvasLayer/UI.fire_spell_should_blink = false
 
 func soft_reset():
+	$CanvasLayer/UI/TitleUI.visible = false
+	
 	var ghosts = get_tree().get_nodes_in_group("Ghost")
 	for ghost in ghosts:
 		ghost.destroy()

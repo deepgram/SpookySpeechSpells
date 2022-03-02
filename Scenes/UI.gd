@@ -24,8 +24,8 @@ func _on_SpellBlinkTimer_timeout():
 		$TopRowUI/HBoxContainer/FireSpell.modulate.a = 255
 
 func showGameOver(final_score):
-	$CenterUI/VBoxContainer/YourScore.text = "YOUR SCORE: " + str(final_score)
-	$CenterUI.visible = true
+	$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/YourScore.text = "YOUR SCORE: " + str(final_score)
+	$GameOverUI.visible = true
 
 func hideGameOver():
-	$CenterUI.visible = false
+	$GameOverUI.visible = false
