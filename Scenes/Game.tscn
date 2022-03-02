@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Game.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Torch.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/DeepgramIntegration/DeepgramInstance.tscn" type="PackedScene" id=6]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
@@ -38,4 +39,11 @@ position = Vector2( 60, 80 )
 wait_time = 2.0
 autostart = true
 
+[node name="DeepgramInstance" parent="." instance=ExtResource( 6 )]
+
+[node name="ScoreTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="GhostSpawnTimer" to="." method="_on_GhostSpawnTimer_timeout"]
+[connection signal="message_received" from="DeepgramInstance" to="." method="_on_DeepgramInstance_message_received"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

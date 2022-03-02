@@ -19,3 +19,6 @@ func _physics_process(_delta):
 		velocity.x = 0
 
 	var _returned_velocity = move_and_slide(velocity, Vector2(0, 0), false, 4, 0, false)
+
+func destroy():
+	get_tree().queue_delete(self)
