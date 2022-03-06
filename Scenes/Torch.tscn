@@ -36,9 +36,7 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 1 )
 
-[node name="TorchLight" type="Area2D" parent="." groups=[
-"TorchLight",
-]]
+[node name="TorchLight" type="Area2D" parent="." groups=["TorchLight"]]
 position = Vector2( 0, -12 )
 script = ExtResource( 5 )
 

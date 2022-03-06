@@ -3,14 +3,20 @@ extends Node2D
 var rng = RandomNumberGenerator.new()
 var score = 0
 var fire_spells = 5
-var lightening_spells = 5
+var lightning_spells = 5
 var ice_spells = 5
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.scancode == KEY_F:
-			for i in rng.randi_range(2, 5):
+			for i in rng.randi_range(4, 8):
 				spawn_fireball()
+		if event.scancode == KEY_L:
+			for i in rng.randi_range(2, 5):
+				spawn_lightningball()
+		if event.scancode == KEY_I:
+			for i in rng.randi_range(2, 5):
+				spawn_icicle()
 		if event.scancode == KEY_SPACE:
 			soft_reset()
 
@@ -29,14 +35,29 @@ func _on_DeepgramInstance_message_received(message):
 					var transcript = message_json.result["channel"]["alternatives"][0]["transcript"]
 					print("Transcript received: " + transcript)
 					$CanvasLayer/UI.update_transcript(transcript)
+					
 					for i in transcript.count("fire"):
 						if fire_spells > 0 and $Player.visible:
-							for j in rng.randi_range(2, 5):
+							for j in rng.randi_range(4, 8):
 								spawn_fireball()
 							fire_spells -= 1
 							$CanvasLayer/UI.update_fire_spells(fire_spells)
 							$CanvasLayer/UI.fire_spell_should_blink = true
-
+					for i in transcript.count("lightning"):
+						if lightning_spells > 0 and $Player.visible:
+							for j in rng.randi_range(2, 5):
+								spawn_lightningball()
+							lightning_spells -= 1
+							$CanvasLayer/UI.update_lightning_spells(lightning_spells)
+							$CanvasLayer/UI.lightning_spell_should_blink = true
+					for i in transcript.count("ice"):
+						if ice_spells > 0 and $Player.visible:
+							for j in rng.randi_range(2, 5):
+								spawn_icicle()
+							ice_spells -= 1
+							$CanvasLayer/UI.update_ice_spells(ice_spells)
+							$CanvasLayer/UI.ice_spell_should_blink = true
+													
 	else:
 		print("Failed to parse Deepgram message!")
 
@@ -68,6 +89,28 @@ func spawn_fireball():
 	fireball.rotation = fireball.direction.angle()
 	fireball.position = $Player.position
 
+func spawn_lightningball():
+	var lightningball = load("res://Scenes/Lightningball.tscn").instance()
+	add_child(lightningball)
+	
+	var random_angle = rng.randf_range(PI / 4.0, 3.0 * PI / 4.0)
+	if rng.randf() > 0.5:
+		random_angle = rng.randf_range(5.0 * PI / 4.0, 7.0 * PI / 4.0)
+	lightningball.direction = Vector2(cos(random_angle), sin(random_angle))
+	lightningball.rotation = lightningball.direction.angle()
+	lightningball.position = $Player.position
+
+func spawn_icicle():
+	var icicle = load("res://Scenes/Icicle.tscn").instance()
+	add_child(icicle)
+	
+	var random_angle = rng.randf_range(- PI / 4.0, PI / 4.0)
+	if rng.randf() > 0.5:
+		random_angle = rng.randf_range(3.0 * PI / 4.0, 5.0 * PI / 4.0)
+	icicle.direction = Vector2(cos(random_angle), sin(random_angle))
+	icicle.rotation = icicle.direction.angle()
+	icicle.position = $Player.position
+	
 func _on_GhostSpawnTimer_timeout():
 	if $Player.visible:
 		var ghost = load("res://Scenes/Ghost.tscn").instance()
@@ -90,6 +133,18 @@ func _on_ScoreTimer_timeout():
 			if fire_spells == 5:
 				$CanvasLayer/UI.fire_spell_should_blink = false
 
+		if lightning_spells < 5:
+			lightning_spells += 1
+			$CanvasLayer/UI.update_lightning_spells(lightning_spells)
+			if lightning_spells == 5:
+				$CanvasLayer/UI.lightning_spell_should_blink = false
+
+		if ice_spells < 5:
+			ice_spells += 1
+			$CanvasLayer/UI.update_ice_spells(ice_spells)
+			if ice_spells == 5:
+				$CanvasLayer/UI.ice_spell_should_blink = false
+
 func soft_reset():
 	$CanvasLayer/UI/TitleUI.visible = false
 	
@@ -99,12 +154,17 @@ func soft_reset():
 
 	score = 0
 	fire_spells = 5
-	lightening_spells = 5
+	lightning_spells = 5
 	ice_spells = 5
 	
 	$CanvasLayer/UI.update_score(score)
+	
 	$CanvasLayer/UI.update_fire_spells(fire_spells)
 	$CanvasLayer/UI.fire_spell_should_blink = false
-
+	$CanvasLayer/UI.update_lightning_spells(lightning_spells)
+	$CanvasLayer/UI.lightning_spell_should_blink = false
+	$CanvasLayer/UI.update_ice_spells(ice_spells)
+	$CanvasLayer/UI.ice_spell_should_blink = false
+	
 	$CanvasLayer/UI.hideGameOver()
 	$Player.visible = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Font/kongtext.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI.gd" type="Script" id=2]
@@ -13,6 +13,14 @@ size = 8
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
+size = 8
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 8
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=11]
 size = 8
 font_data = ExtResource( 1 )
 
@@ -42,9 +50,6 @@ anchor_left = 0.000431681
 anchor_right = 1.00043
 anchor_bottom = 1.0
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TopRowUI" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -67,23 +72,37 @@ text = "SCORE: 0"
 
 [node name="MarginContainer" type="MarginContainer" parent="TopRowUI/HBoxContainer"]
 margin_left = 68.0
-margin_right = 511.0
+margin_right = 359.0
 margin_bottom = 8.0
 size_flags_horizontal = 3
 
 [node name="Spells" type="Label" parent="TopRowUI/HBoxContainer"]
-margin_left = 515.0
-margin_right = 579.0
+margin_left = 363.0
+margin_right = 427.0
 margin_bottom = 8.0
 custom_fonts/font = SubResource( 2 )
 text = "SPELLS: "
 
 [node name="FireSpell" type="Label" parent="TopRowUI/HBoxContainer"]
-margin_left = 583.0
-margin_right = 631.0
+margin_left = 431.0
+margin_right = 487.0
 margin_bottom = 8.0
 custom_fonts/font = SubResource( 4 )
-text = "FIREx5"
+text = "FIREx5 "
+
+[node name="LightningSpell" type="Label" parent="TopRowUI/HBoxContainer"]
+margin_left = 491.0
+margin_right = 587.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 10 )
+text = "LIGHTNINGx5 "
+
+[node name="IceSpell" type="Label" parent="TopRowUI/HBoxContainer"]
+margin_left = 591.0
+margin_right = 631.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 11 )
+text = "ICEx5"
 
 [node name="BottomUI" type="MarginContainer" parent="."]
 anchor_top = 1.0

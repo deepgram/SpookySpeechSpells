@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/Fireball/fireball_1.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Fireball/fireball_2.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Fireball.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Lightningball/lightningball_1.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Lightningball/lightningball_2.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Lightningball.gd" type="Script" id=3]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -13,9 +13,9 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 4.0
+radius = 6.0
 
-[node name="Fireball" type="Area2D" groups=["Fireball"]]
+[node name="Lightningball" type="Area2D"]
 scale = Vector2( 2, 2 )
 script = ExtResource( 3 )
 
@@ -32,5 +32,5 @@ wait_time = 30.0
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="." to="." method="_on_Fireball_area_entered"]
+[connection signal="area_entered" from="." to="." method="_on_Lightningball_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
