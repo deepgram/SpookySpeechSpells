@@ -45,18 +45,23 @@ func initialize(api_key):
 	client.connect("connection_established", self, "_connected")
 	client.connect("data_received", self, "_on_data")
 
-	# this is how we authenticate with Deepgram using an api key
-	# N.B. this will not work with HTML5 exports!
-	#var auth_header = "Authorization: Token " + api_key
-	#var extra_headers = PoolStringArray([auth_header])
-	
-	# connect to Deepgram - note we must specify the raw audio format
-	#var err = client.connect_to_url("wss://browncanstudios.com/deepgram_websockets_proxy?encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1", PoolStringArray(), false, extra_headers)
-	var err = client.connect_to_url("wss://browncanstudios.com/deepgram_websockets_proxy?token=" + api_key + "&encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1")
-	if err != OK:
-		print("Unable to connect")
-		emit_signal("message_received", "unable to connect to deepgram;")
-		set_process(false)
+	# if this is an HTML5 build of the game, we will need to authenticate via a proxy server
+	if OS.get_name() == "HTML5":
+		print("HTML5 build, will use proxy server.")
+		var err = client.connect_to_url("wss://browncanstudios.com/deepgram_websockets_proxy?token=" + api_key + "&encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1")
+		if err != OK:
+			print("Unable to connect")
+			emit_signal("message_received", "unable to connect to deepgram;")
+			set_process(false)
+	else:
+		print("Using extra headers.")
+		var auth_header = "Authorization: Token " + api_key
+		var extra_headers = PoolStringArray([auth_header])
+		var err = client.connect_to_url("wss://api.deepgram.com/v1/listen?encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1", PoolStringArray(), false, extra_headers)
+		if err != OK:
+			print("Unable to connect")
+			emit_signal("message_received", "unable to connect to deepgram;")
+			set_process(false)
 
 func _closed(was_clean = false):
 	print("Closed, clean: ", was_clean)
