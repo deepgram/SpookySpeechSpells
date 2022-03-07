@@ -24,7 +24,7 @@ func _ready():
 	rng.randomize()
 	$CanvasLayer/UI/TitleUI.visible = true
 	$Player.visible = false
-	$DeepgramInstance.initialize("6bcd9cacad1f0a0dc84cbda8e7ac0b3501eedf3b")
+	$DeepgramInstance.initialize("INSERT_YOUR_API_KEY")
 
 func _on_DeepgramInstance_message_received(message):
 	var message_json = JSON.parse(message)
