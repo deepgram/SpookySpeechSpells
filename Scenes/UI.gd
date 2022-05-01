@@ -48,7 +48,7 @@ func _on_SpellBlinkTimer_timeout():
 		$TopRowUI/HBoxContainer/IceSpell.modulate.a = 255
 
 func showGameOver(final_score):
-	$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/YourScore.text = "YOUR SCORE: " + str(final_score)
+	$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/YourScore.text = "\n" + "YOUR SCORE: " + str(final_score) + "\n"
 	$GameOverUI.visible = true
 
 func hideGameOver():
