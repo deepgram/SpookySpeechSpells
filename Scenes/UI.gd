@@ -1,5 +1,9 @@
 extends Control
 
+signal pressed_play
+signal pressed_retry
+signal pressed_main_menu
+
 var fire_spell_should_blink = false
 var lightning_spell_should_blink = false
 var ice_spell_should_blink = false
@@ -53,3 +57,12 @@ func showGameOver(final_score):
 
 func hideGameOver():
 	$GameOverUI.visible = false
+
+func _on_ButtonPlay_pressed():
+	emit_signal("pressed_play")
+
+func _on_ButtonRetry_pressed():
+	emit_signal("pressed_retry")
+
+func _on_ButtonMainMenu_pressed():
+	emit_signal("pressed_main_menu")

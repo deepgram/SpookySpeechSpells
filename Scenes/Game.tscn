@@ -44,6 +44,9 @@ autostart = true
 [node name="ScoreTimer" type="Timer" parent="."]
 autostart = true
 
+[connection signal="pressed_main_menu" from="CanvasLayer/UI" to="." method="_on_UI_pressed_main_menu"]
+[connection signal="pressed_play" from="CanvasLayer/UI" to="." method="_on_UI_pressed_play"]
+[connection signal="pressed_retry" from="CanvasLayer/UI" to="." method="_on_UI_pressed_retry"]
 [connection signal="timeout" from="GhostSpawnTimer" to="." method="_on_GhostSpawnTimer_timeout"]
 [connection signal="message_received" from="DeepgramInstance" to="." method="_on_DeepgramInstance_message_received"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

@@ -147,7 +147,15 @@ func _on_ScoreTimer_timeout():
 
 func soft_reset():
 	$CanvasLayer/UI/TitleUI.visible = false
-	
+	common_reset()
+	$Player.visible = true
+
+func hard_reset():
+	$CanvasLayer/UI/TitleUI.visible = true
+	common_reset()
+	$Player.visible = false
+
+func common_reset():
 	var ghosts = get_tree().get_nodes_in_group("Ghost")
 	for ghost in ghosts:
 		ghost.destroy()
@@ -167,4 +175,12 @@ func soft_reset():
 	$CanvasLayer/UI.ice_spell_should_blink = false
 	
 	$CanvasLayer/UI.hideGameOver()
-	$Player.visible = true
+
+func _on_UI_pressed_play():
+	soft_reset()
+
+func _on_UI_pressed_main_menu():
+	hard_reset()
+
+func _on_UI_pressed_retry():
+	soft_reset()

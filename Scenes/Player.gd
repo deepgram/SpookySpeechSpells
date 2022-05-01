@@ -18,6 +18,10 @@ func _physics_process(_delta):
 	else:
 		velocity.x = 0
 
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		if get_global_mouse_position().distance_to(global_position) > 2:
+			velocity = speed * (get_global_mouse_position() - global_position).normalized()
+
 	var _returned_velocity = move_and_slide(velocity, Vector2(0, 0), false, 4, 0, false)
 
 func destroy():
