@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Assets/Font/kongtext.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI.gd" type="Script" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://Assets/Buttons/button_instructions.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Buttons/button_main_menu.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Buttons/button_retry.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Buttons/button_play_pressed.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Buttons/button_instructions_pressed.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Buttons/button_main_menu_pressed.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Buttons/button_retry_pressed.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Buttons/button_controls_pressed.png" type="Texture" id=13]
 
 [sub_resource type="DynamicFont" id=1]
 size = 8
@@ -58,9 +63,6 @@ anchor_right = 1.0
 margin_left = 4.0
 margin_top = 4.0
 margin_right = -4.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopRowUI"]
 margin_right = 631.0
@@ -114,9 +116,6 @@ margin_left = 4.0
 margin_top = -12.0
 margin_right = -4.0
 margin_bottom = -4.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="BottomUI"]
 margin_right = 631.0
@@ -189,27 +188,29 @@ YOUR SCORE:
 "
 align = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="CenterRetry" type="CenterContainer" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer"]
 margin_top = 54.0
 margin_right = 144.0
 margin_bottom = 78.0
 
-[node name="ButtonRetry" type="TextureButton" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterContainer"]
+[node name="ButtonRetry" type="TextureButton" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterRetry"]
 margin_left = 16.0
 margin_right = 128.0
 margin_bottom = 24.0
 texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 12 )
 
-[node name="CenterContainer2" type="CenterContainer" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="CenterMainMenu" type="CenterContainer" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer"]
 margin_top = 82.0
 margin_right = 144.0
 margin_bottom = 106.0
 
-[node name="ButtonMainMenu" type="TextureButton" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterContainer2"]
+[node name="ButtonMainMenu" type="TextureButton" parent="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterMainMenu"]
 margin_left = 16.0
 margin_right = 128.0
 margin_bottom = 24.0
 texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 11 )
 
 [node name="TitleUI" type="MarginContainer" parent="."]
 anchor_left = 0.5
@@ -220,9 +221,6 @@ margin_left = -180.0
 margin_top = -120.0
 margin_right = 180.0
 margin_bottom = 120.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="NinePatchRect" type="NinePatchRect" parent="TitleUI"]
 margin_right = 360.0
@@ -244,17 +242,17 @@ margin_bottom = 240.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TitleUI/MarginContainer/CenterContainer"]
 margin_left = 20.0
-margin_top = 47.0
+margin_top = 75.0
 margin_right = 340.0
-margin_bottom = 192.0
+margin_bottom = 164.0
 
-[node name="Label" type="Label" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="LabelTitle" type="Label" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer"]
 margin_right = 320.0
 margin_bottom = 16.0
 custom_fonts/font = SubResource( 8 )
 text = "SPOOKY SPEECH SPELLS"
 
-[node name="Label2" type="Label" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="LabelSubtitle" type="Label" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer"]
 margin_top = 20.0
 margin_right = 320.0
 margin_bottom = 61.0
@@ -275,8 +273,10 @@ margin_left = 104.0
 margin_right = 216.0
 margin_bottom = 24.0
 texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 9 )
 
 [node name="CenterControls" type="CenterContainer" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer"]
+visible = false
 margin_top = 93.0
 margin_right = 320.0
 margin_bottom = 117.0
@@ -286,19 +286,22 @@ margin_left = 104.0
 margin_right = 216.0
 margin_bottom = 24.0
 texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 13 )
 
 [node name="CenterInstructions" type="CenterContainer" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer"]
-margin_top = 121.0
+visible = false
+margin_top = 93.0
 margin_right = 320.0
-margin_bottom = 145.0
+margin_bottom = 117.0
 
 [node name="ButtonInstructions" type="TextureButton" parent="TitleUI/MarginContainer/CenterContainer/VBoxContainer/CenterInstructions"]
 margin_left = 104.0
 margin_right = 216.0
 margin_bottom = 24.0
 texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 10 )
 
 [connection signal="timeout" from="SpellBlinkTimer" to="." method="_on_SpellBlinkTimer_timeout"]
-[connection signal="pressed" from="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterContainer/ButtonRetry" to="." method="_on_ButtonRetry_pressed"]
-[connection signal="pressed" from="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterContainer2/ButtonMainMenu" to="." method="_on_ButtonMainMenu_pressed"]
+[connection signal="pressed" from="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterRetry/ButtonRetry" to="." method="_on_ButtonRetry_pressed"]
+[connection signal="pressed" from="GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterMainMenu/ButtonMainMenu" to="." method="_on_ButtonMainMenu_pressed"]
 [connection signal="pressed" from="TitleUI/MarginContainer/CenterContainer/VBoxContainer/CenterPlay/ButtonPlay" to="." method="_on_ButtonPlay_pressed"]

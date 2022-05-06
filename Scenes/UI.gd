@@ -8,6 +8,17 @@ var fire_spell_should_blink = false
 var lightning_spell_should_blink = false
 var ice_spell_should_blink = false
 
+func _input(event):
+	if event is InputEventKey and event.pressed:
+		if $TitleUI.visible:
+			if event.scancode == KEY_P:
+				$TitleUI/MarginContainer/CenterContainer/VBoxContainer/CenterPlay/ButtonPlay.emit_signal("pressed")
+		if $GameOverUI.visible:
+			if event.scancode == KEY_R:
+				$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterRetry/ButtonRetry.emit_signal("pressed")
+			if event.scancode == KEY_M:
+				$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterMainMenu/ButtonMainMenu.emit_signal("pressed")
+						
 func update_score(score):
 	$TopRowUI/HBoxContainer/Score.text = "SCORE: " + str(score)
 

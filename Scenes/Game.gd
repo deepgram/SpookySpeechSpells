@@ -17,8 +17,6 @@ func _input(event):
 		if event.scancode == KEY_I:
 			for i in rng.randi_range(2, 5):
 				spawn_icicle()
-		if event.scancode == KEY_SPACE:
-			soft_reset()
 
 func _ready():
 	rng.randomize()
