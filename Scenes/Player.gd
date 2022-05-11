@@ -3,6 +3,8 @@ extends KinematicBody2D
 export var speed = 200
 var velocity = Vector2(0, 0)
 
+signal was_hit
+
 func _physics_process(_delta):
 	if Input.is_key_pressed(KEY_W):
 		velocity.y = -speed
@@ -26,3 +28,6 @@ func _physics_process(_delta):
 
 func destroy():
 	get_tree().queue_delete(self)
+
+func was_hit():
+	emit_signal("was_hit")

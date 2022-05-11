@@ -6,9 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 9.0
 
-[node name="Ghost" type="Area2D" groups=[
-"Ghost",
-]]
+[node name="Ghost" type="Area2D" groups=["Ghost"]]
 scale = Vector2( 2, 2 )
 script = ExtResource( 2 )
 

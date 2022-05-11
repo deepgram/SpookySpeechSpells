@@ -7,7 +7,7 @@ var lightning_spells = 5
 var ice_spells = 5
 
 func _input(event):
-	if event is InputEventKey and event.pressed:
+	if event is InputEventKey and event.pressed and $Player.visible:
 		if event.scancode == KEY_F:
 			for i in rng.randi_range(4, 8):
 				spawn_fireball()
@@ -18,11 +18,19 @@ func _input(event):
 			for i in rng.randi_range(2, 5):
 				spawn_icicle()
 
+func spawn_main_menu():
+	var main_menu_ui = load("res://Scenes/MainMenuUI.tscn").instance()
+	main_menu_ui.connect("pressed_play", self, "_on_MainMenuUI_pressed_play")
+	main_menu_ui.connect("pressed_controls", self, "_on_MainMenuUI_pressed_controls")
+	main_menu_ui.connect("pressed_instructions", self, "_on_MainMenuUI_pressed_instructions")
+	$CanvasLayer.add_child(main_menu_ui)
+
 func _ready():
 	rng.randomize()
-	$CanvasLayer/UI/TitleUI.visible = true
 	$Player.visible = false
 	$DeepgramInstance.initialize("INSERT_YOUR_API_KEY")
+
+	spawn_main_menu()
 
 func _on_DeepgramInstance_message_received(message):
 	var message_json = JSON.parse(message)
@@ -32,37 +40,34 @@ func _on_DeepgramInstance_message_received(message):
 				if message_json.result["is_final"] == true:
 					var transcript = message_json.result["channel"]["alternatives"][0]["transcript"]
 					print("Transcript received: " + transcript)
-					$CanvasLayer/UI.update_transcript(transcript)
+					$CanvasLayer/HUD.update_transcript(transcript)
 					
 					for i in transcript.count("fire"):
 						if fire_spells > 0 and $Player.visible:
 							for j in rng.randi_range(4, 8):
 								spawn_fireball()
 							fire_spells -= 1
-							$CanvasLayer/UI.update_fire_spells(fire_spells)
-							$CanvasLayer/UI.fire_spell_should_blink = true
+							$CanvasLayer/HUD.update_fire_spells(fire_spells)
+							$CanvasLayer/HUD.fire_spell_should_blink = true
 					for i in transcript.count("lightning"):
 						if lightning_spells > 0 and $Player.visible:
 							for j in rng.randi_range(2, 5):
 								spawn_lightningball()
 							lightning_spells -= 1
-							$CanvasLayer/UI.update_lightning_spells(lightning_spells)
-							$CanvasLayer/UI.lightning_spell_should_blink = true
+							$CanvasLayer/HUD.update_lightning_spells(lightning_spells)
+							$CanvasLayer/HUD.lightning_spell_should_blink = true
 					for i in transcript.count("ice"):
 						if ice_spells > 0 and $Player.visible:
 							for j in rng.randi_range(2, 5):
 								spawn_icicle()
 							ice_spells -= 1
-							$CanvasLayer/UI.update_ice_spells(ice_spells)
-							$CanvasLayer/UI.ice_spell_should_blink = true
+							$CanvasLayer/HUD.update_ice_spells(ice_spells)
+							$CanvasLayer/HUD.ice_spell_should_blink = true
 													
 	else:
 		print("Failed to parse Deepgram message!")
 
 func _process(_delta):
-	if !$Player.visible && !$CanvasLayer/UI/GameOverUI.visible && !$CanvasLayer/UI/TitleUI.visible:
-		$CanvasLayer/UI.showGameOver(score)
-
 	var ghosts = get_tree().get_nodes_in_group("Ghost")
 	for ghost in ghosts:
 		if $Player.visible:
@@ -123,33 +128,33 @@ func _on_GhostSpawnTimer_timeout():
 func _on_ScoreTimer_timeout():
 	if $Player.visible:
 		score += 1
-		$CanvasLayer/UI.update_score(score)
+		$CanvasLayer/HUD.update_score(score)
 	
 		if fire_spells < 5:
 			fire_spells += 1
-			$CanvasLayer/UI.update_fire_spells(fire_spells)
+			$CanvasLayer/HUD.update_fire_spells(fire_spells)
 			if fire_spells == 5:
-				$CanvasLayer/UI.fire_spell_should_blink = false
+				$CanvasLayer/HUD.fire_spell_should_blink = false
 
 		if lightning_spells < 5:
 			lightning_spells += 1
-			$CanvasLayer/UI.update_lightning_spells(lightning_spells)
+			$CanvasLayer/HUD.update_lightning_spells(lightning_spells)
 			if lightning_spells == 5:
-				$CanvasLayer/UI.lightning_spell_should_blink = false
+				$CanvasLayer/HUD.lightning_spell_should_blink = false
 
 		if ice_spells < 5:
 			ice_spells += 1
-			$CanvasLayer/UI.update_ice_spells(ice_spells)
+			$CanvasLayer/HUD.update_ice_spells(ice_spells)
 			if ice_spells == 5:
-				$CanvasLayer/UI.ice_spell_should_blink = false
+				$CanvasLayer/HUD.ice_spell_should_blink = false
 
 func soft_reset():
-	$CanvasLayer/UI/TitleUI.visible = false
 	common_reset()
 	$Player.visible = true
 
 func hard_reset():
-	$CanvasLayer/UI/TitleUI.visible = true
+	spawn_main_menu()
+	
 	common_reset()
 	$Player.visible = false
 
@@ -163,22 +168,34 @@ func common_reset():
 	lightning_spells = 5
 	ice_spells = 5
 	
-	$CanvasLayer/UI.update_score(score)
+	$CanvasLayer/HUD.update_score(score)
 	
-	$CanvasLayer/UI.update_fire_spells(fire_spells)
-	$CanvasLayer/UI.fire_spell_should_blink = false
-	$CanvasLayer/UI.update_lightning_spells(lightning_spells)
-	$CanvasLayer/UI.lightning_spell_should_blink = false
-	$CanvasLayer/UI.update_ice_spells(ice_spells)
-	$CanvasLayer/UI.ice_spell_should_blink = false
-	
-	$CanvasLayer/UI.hideGameOver()
+	$CanvasLayer/HUD.update_fire_spells(fire_spells)
+	$CanvasLayer/HUD.fire_spell_should_blink = false
+	$CanvasLayer/HUD.update_lightning_spells(lightning_spells)
+	$CanvasLayer/HUD.lightning_spell_should_blink = false
+	$CanvasLayer/HUD.update_ice_spells(ice_spells)
+	$CanvasLayer/HUD.ice_spell_should_blink = false
 
-func _on_UI_pressed_play():
+func _on_MainMenuUI_pressed_play():
 	soft_reset()
 
-func _on_UI_pressed_main_menu():
+func _on_MainMenuUI_pressed_controls():
 	hard_reset()
 
-func _on_UI_pressed_retry():
+func _on_MainMenuUI_pressed_instructions():
+	hard_reset()
+	
+func _on_GameOverUI_pressed_retry():
 	soft_reset()
+
+func _on_GameOverUI_pressed_main_menu():
+	hard_reset()
+
+func _on_Player_was_hit():
+	$Player.visible = false
+	var game_over_ui = load("res://Scenes/GameOverUI.tscn").instance()
+	game_over_ui.connect("pressed_retry", self, "_on_GameOverUI_pressed_retry")
+	game_over_ui.connect("pressed_main_menu", self, "_on_GameOverUI_pressed_main_menu")
+	game_over_ui.set_score(score)
+	$CanvasLayer.add_child(game_over_ui)

@@ -17,4 +17,4 @@ func destroy():
 
 func _on_Ghost_body_entered(body):
 	if body.is_in_group("Player") and body.visible:
-		body.visible = false
+		body.was_hit()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Map.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Game.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Torch.tscn" type="PackedScene" id=5]
@@ -14,7 +14,7 @@ script = ExtResource( 4 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="UI" parent="CanvasLayer" instance=ExtResource( 2 )]
+[node name="HUD" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 320, 240 )
@@ -44,9 +44,7 @@ autostart = true
 [node name="ScoreTimer" type="Timer" parent="."]
 autostart = true
 
-[connection signal="pressed_main_menu" from="CanvasLayer/UI" to="." method="_on_UI_pressed_main_menu"]
-[connection signal="pressed_play" from="CanvasLayer/UI" to="." method="_on_UI_pressed_play"]
-[connection signal="pressed_retry" from="CanvasLayer/UI" to="." method="_on_UI_pressed_retry"]
+[connection signal="was_hit" from="Player" to="." method="_on_Player_was_hit"]
 [connection signal="timeout" from="GhostSpawnTimer" to="." method="_on_GhostSpawnTimer_timeout"]
 [connection signal="message_received" from="DeepgramInstance" to="." method="_on_DeepgramInstance_message_received"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
