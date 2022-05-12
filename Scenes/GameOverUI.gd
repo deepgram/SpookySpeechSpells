@@ -4,7 +4,6 @@ signal pressed_retry
 signal pressed_main_menu
 
 func destroy():
-	print("destroying game over ui")
 	get_tree().queue_delete(self)
 
 func set_score(score):
