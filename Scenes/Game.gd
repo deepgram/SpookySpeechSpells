@@ -181,11 +181,21 @@ func _on_MainMenuUI_pressed_play():
 	soft_reset()
 
 func _on_MainMenuUI_pressed_controls():
-	hard_reset()
+	var controls_ui = load("res://Scenes/ControlsUI.tscn").instance()
+	controls_ui.connect("pressed_back", self, "_on_ControlsUI_pressed_back")
+	$CanvasLayer.add_child(controls_ui)
 
 func _on_MainMenuUI_pressed_instructions():
+	var instructions_ui = load("res://Scenes/InstructionsUI.tscn").instance()
+	instructions_ui.connect("pressed_back", self, "_on_InstructionsUI_pressed_back")
+	$CanvasLayer.add_child(instructions_ui)
+
+func _on_ControlsUI_pressed_back():
 	hard_reset()
-	
+
+func _on_InstructionsUI_pressed_back():
+	hard_reset()
+
 func _on_GameOverUI_pressed_retry():
 	soft_reset()
 

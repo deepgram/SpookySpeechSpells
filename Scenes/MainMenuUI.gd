@@ -12,9 +12,9 @@ func _input(event):
 		if event.scancode == KEY_P:
 			$MarginContainer/CenterContainer/VBoxContainer/CenterPlay/ButtonPlay.emit_signal("pressed")
 		if event.scancode == KEY_C:
-			$MarginContainer/CenterContainer/VBoxContainer/CenterPlay/ButtonControls.emit_signal("pressed")
+			$MarginContainer/CenterContainer/VBoxContainer/CenterControls/ButtonControls.emit_signal("pressed")
 		if event.scancode == KEY_I:
-			$MarginContainer/CenterContainer/VBoxContainer/CenterPlay/ButtonInstructions.emit_signal("pressed")
+			$MarginContainer/CenterContainer/VBoxContainer/CenterInstructions/ButtonInstructions.emit_signal("pressed")
 
 func _on_ButtonPlay_pressed():
 	emit_signal("pressed_play")
