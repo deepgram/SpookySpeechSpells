@@ -23,10 +23,14 @@ mix_rate=48000
 
 window/size/width=640
 window/size/height=480
-window/size/test_width=1280
-window/size/test_height=960
+window/size/test_width=640
+window/size/test_height=480
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
+
+[global]
+
+window=false
 
 [physics]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/HUD.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Font/kongtext.ttf" type="DynamicFontData" id=2]
@@ -24,6 +24,10 @@ size = 8
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
+size = 8
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=12]
 size = 8
 font_data = ExtResource( 2 )
 
@@ -97,12 +101,19 @@ margin_right = 631.0
 margin_bottom = 8.0
 
 [node name="Transcript" type="Label" parent="BottomUI/HBoxContainer"]
-margin_right = 631.0
+margin_right = 595.0
 margin_bottom = 8.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 3 )
 text = "TRANSCRIPT:"
 autowrap = true
+
+[node name="Label" type="Label" parent="BottomUI/HBoxContainer"]
+margin_left = 599.0
+margin_right = 631.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 12 )
+text = "v2.0"
 
 [node name="SpellBlinkTimer" type="Timer" parent="."]
 wait_time = 0.2
