@@ -6,6 +6,10 @@ var fire_spells = 5
 var lightning_spells = 5
 var ice_spells = 5
 
+var chunk_fire_spells = 0
+var chunk_lightning_spells = 0
+var chunk_ice_spells = 0
+
 func _input(event):
 	if event is InputEventKey and event.pressed and $Player.visible:
 		if event.scancode == KEY_F:
@@ -37,33 +41,39 @@ func _on_DeepgramInstance_message_received(message):
 	if message_json.error == OK:
 		if typeof(message_json.result) == TYPE_DICTIONARY:
 			if message_json.result.has("is_final"):
-				if message_json.result["is_final"] == true:
-					var transcript = message_json.result["channel"]["alternatives"][0]["transcript"]
-					print("Transcript received: " + transcript)
-					$CanvasLayer/HUD.update_transcript(transcript)
-					
-					for i in transcript.count("fire"):
+				var transcript = message_json.result["channel"]["alternatives"][0]["transcript"]
+				if transcript.count("fire") > chunk_fire_spells:
+					for i in transcript.count("fire") - chunk_fire_spells:
 						if fire_spells > 0 and $Player.visible:
 							for j in rng.randi_range(4, 8):
 								spawn_fireball()
 							fire_spells -= 1
 							$CanvasLayer/HUD.update_fire_spells(fire_spells)
 							$CanvasLayer/HUD.fire_spell_should_blink = true
-					for i in transcript.count("lightning"):
+					chunk_fire_spells = transcript.count("fire")
+				if transcript.count("lightning") > chunk_lightning_spells:
+					for i in transcript.count("lightning") - chunk_lightning_spells:
 						if lightning_spells > 0 and $Player.visible:
 							for j in rng.randi_range(2, 5):
 								spawn_lightningball()
 							lightning_spells -= 1
 							$CanvasLayer/HUD.update_lightning_spells(lightning_spells)
 							$CanvasLayer/HUD.lightning_spell_should_blink = true
-					for i in transcript.count("ice"):
+					chunk_lightning_spells = transcript.count("lightning")
+				if transcript.count("ice") > chunk_ice_spells:
+					for i in transcript.count("ice") - chunk_ice_spells:
 						if ice_spells > 0 and $Player.visible:
 							for j in rng.randi_range(2, 5):
 								spawn_icicle()
 							ice_spells -= 1
 							$CanvasLayer/HUD.update_ice_spells(ice_spells)
 							$CanvasLayer/HUD.ice_spell_should_blink = true
-													
+					chunk_ice_spells = transcript.count("ice")
+				if message_json.result["is_final"] == true:
+					$CanvasLayer/HUD.update_transcript(transcript)
+					chunk_fire_spells = 0
+					chunk_lightning_spells = 0
+					chunk_ice_spells = 0
 	else:
 		print("Failed to parse Deepgram message!")
 
