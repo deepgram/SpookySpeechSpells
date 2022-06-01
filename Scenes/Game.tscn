@@ -37,6 +37,7 @@ position = Vector2( 60, 80 )
 
 [node name="GhostSpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
 autostart = true
 
 [node name="DeepgramInstance" parent="." instance=ExtResource( 6 )]
