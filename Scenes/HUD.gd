@@ -1,24 +1,9 @@
 extends Control
 
-#signal pressed_play
-#signal pressed_retry
-#signal pressed_main_menu
-
 var fire_spell_should_blink = false
 var lightning_spell_should_blink = false
 var ice_spell_should_blink = false
 
-#func _input(event):
-#	if event is InputEventKey and event.pressed:
-#		if $TitleUI.visible:
-#			if event.scancode == KEY_P:
-#				$TitleUI/MarginContainer/CenterContainer/VBoxContainer/CenterPlay/ButtonPlay.emit_signal("pressed")
-#		if $GameOverUI.visible:
-#			if event.scancode == KEY_R:
-#				$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterRetry/ButtonRetry.emit_signal("pressed")
-#			if event.scancode == KEY_M:
-#				$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/CenterMainMenu/ButtonMainMenu.emit_signal("pressed")
-						
 func update_score(score):
 	$TopRowUI/HBoxContainer/Score.text = "SCORE: " + str(score)
 
@@ -61,19 +46,3 @@ func _on_SpellBlinkTimer_timeout():
 			$TopRowUI/HBoxContainer/IceSpell.modulate.a = 0
 	else:
 		$TopRowUI/HBoxContainer/IceSpell.modulate.a = 255
-
-#func showGameOver(final_score):
-#	$GameOverUI/MarginContainer/CenterContainer/VBoxContainer/YourScore.text = "\n" + "YOUR SCORE: " + str(final_score) + "\n"
-#	$GameOverUI.visible = true
-
-#func hideGameOver():
-#	$GameOverUI.visible = false
-
-#func _on_ButtonPlay_pressed():
-#	emit_signal("pressed_play")
-
-#func _on_ButtonRetry_pressed():
-#	emit_signal("pressed_retry")
-
-#func _on_ButtonMainMenu_pressed():
-#	emit_signal("pressed_main_menu")

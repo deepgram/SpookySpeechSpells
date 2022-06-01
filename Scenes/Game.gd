@@ -1,7 +1,9 @@
 extends Node2D
 
 var rng = RandomNumberGenerator.new()
+
 var score = 0
+
 var fire_spells = 5
 var lightning_spells = 5
 var ice_spells = 5
@@ -42,6 +44,7 @@ func _on_DeepgramInstance_message_received(message):
 		if typeof(message_json.result) == TYPE_DICTIONARY:
 			if message_json.result.has("is_final"):
 				var transcript = message_json.result["channel"]["alternatives"][0]["transcript"]
+				
 				if transcript.count("fire") > chunk_fire_spells:
 					for i in transcript.count("fire") - chunk_fire_spells:
 						if fire_spells > 0 and $Player.visible:
@@ -51,6 +54,7 @@ func _on_DeepgramInstance_message_received(message):
 							$CanvasLayer/HUD.update_fire_spells(fire_spells)
 							$CanvasLayer/HUD.fire_spell_should_blink = true
 					chunk_fire_spells = transcript.count("fire")
+					
 				if transcript.count("lightning") > chunk_lightning_spells:
 					for i in transcript.count("lightning") - chunk_lightning_spells:
 						if lightning_spells > 0 and $Player.visible:
@@ -60,6 +64,7 @@ func _on_DeepgramInstance_message_received(message):
 							$CanvasLayer/HUD.update_lightning_spells(lightning_spells)
 							$CanvasLayer/HUD.lightning_spell_should_blink = true
 					chunk_lightning_spells = transcript.count("lightning")
+					
 				if transcript.count("ice") > chunk_ice_spells:
 					for i in transcript.count("ice") - chunk_ice_spells:
 						if ice_spells > 0 and $Player.visible:
@@ -69,6 +74,7 @@ func _on_DeepgramInstance_message_received(message):
 							$CanvasLayer/HUD.update_ice_spells(ice_spells)
 							$CanvasLayer/HUD.ice_spell_should_blink = true
 					chunk_ice_spells = transcript.count("ice")
+					
 				if message_json.result["is_final"] == true:
 					$CanvasLayer/HUD.update_transcript(transcript)
 					chunk_fire_spells = 0
