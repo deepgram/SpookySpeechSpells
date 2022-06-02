@@ -3,6 +3,7 @@ extends Node2D
 var rng = RandomNumberGenerator.new()
 
 var score = 0
+var ghost_spawn_time = 2.0
 
 var fire_spells = 5
 var lightning_spells = 5
@@ -34,7 +35,7 @@ func spawn_main_menu():
 func _ready():
 	rng.randomize()
 	$Player.visible = false
-	$DeepgramInstance.initialize("INSERT_YOUR_API_KEY")
+	$DeepgramInstance.initialize("INSERT_YOUR_DEEPGRAM_API_KEY")
 
 	spawn_main_menu()
 
@@ -98,6 +99,8 @@ func _process(_delta):
 		$Torch2/TorchLight.extinguish()
 		$Torch3/TorchLight.extinguish()
 		$Torch4/TorchLight.extinguish()
+		
+		ghost_spawn_time = 2.0
 
 func spawn_fireball():
 	var fireball = load("res://Scenes/Fireball.tscn").instance()
@@ -140,11 +143,16 @@ func _on_GhostSpawnTimer_timeout():
 		var spawn_position = $Player.position + Vector2(cos(random_angle), sin(random_angle)) * random_distance
 		ghost.position = spawn_position
 		ghost.destination = $Player.position
+		
+	$GhostSpawnTimer.start(ghost_spawn_time)
 
 func _on_ScoreTimer_timeout():
 	if $Player.visible:
 		score += 1
 		$CanvasLayer/HUD.update_score(score)
+		
+		if ghost_spawn_time > 0.25:
+			ghost_spawn_time -= 0.05
 	
 		if fire_spells < 5:
 			fire_spells += 1
@@ -183,6 +191,7 @@ func common_reset():
 	fire_spells = 5
 	lightning_spells = 5
 	ice_spells = 5
+	ghost_spawn_time = 2.0
 	
 	$CanvasLayer/HUD.update_score(score)
 	
