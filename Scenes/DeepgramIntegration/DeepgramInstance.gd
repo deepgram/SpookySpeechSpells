@@ -45,19 +45,16 @@ func initialize(api_key):
 	client.connect("connection_established", self, "_connected")
 	client.connect("data_received", self, "_on_data")
 
-	# if this is an HTML5 build of the game, we will need to authenticate via a proxy server
 	if OS.get_name() == "HTML5":
-		print("HTML5 build, will use proxy server.")
-		var err = client.connect_to_url("wss://spookyspeechspells.deepgram.com/deepgram_websockets_proxy?interim_results=true&tag=spookyspeechspells&encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1")
+		var protocols = PoolStringArray(["token", api_key])
+		var err = client.connect_to_url("wss://api.deepgram.com/v1/listen?interim_results=true&tag=spookyspeechspells&encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1", protocols, false, PoolStringArray())
 		if err != OK:
 			print("Unable to connect")
 			emit_signal("message_received", "unable to connect to deepgram;")
 			set_process(false)
 	else:
-		print("Using extra headers.")
-		var auth_header = "Authorization: Token " + api_key
-		var extra_headers = PoolStringArray([auth_header])
-		var err = client.connect_to_url("wss://api.deepgram.com/v1/listen?tag=spookyspeechspells&encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1", PoolStringArray(), false, extra_headers)
+		var headers = PoolStringArray(["Authorization: Token " + api_key])
+		var err = client.connect_to_url("wss://api.deepgram.com/v1/listen?interim_results=true&tag=spookyspeechspells&encoding=linear16&sample_rate=" + String(mix_rate) + "&channels=1", PoolStringArray(), false, headers)
 		if err != OK:
 			print("Unable to connect")
 			emit_signal("message_received", "unable to connect to deepgram;")
